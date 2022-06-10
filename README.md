@@ -4,7 +4,6 @@ rk
 Command line tools
 
 <!-- toc -->
-* [Usage](#usage)
 * [Commands](#commands)
 <!-- tocstop -->
 # Commands
