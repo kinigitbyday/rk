@@ -7,20 +7,6 @@ Command line tools
 * [Usage](#usage)
 * [Commands](#commands)
 <!-- tocstop -->
-# Usage
-<!-- usage -->
-```sh-session
-$ npm install -g rk
-$ rk COMMAND
-running command...
-$ rk (--version)
-rk/0.0.0 darwin-x64 node-v14.15.2
-$ rk --help [COMMAND]
-USAGE
-  $ rk COMMAND
-...
-```
-<!-- usagestop -->
 # Commands
 <!-- commands -->
 * [`rk help [COMMAND]`](#rk-help-command)
