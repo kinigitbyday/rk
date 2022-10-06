@@ -21,8 +21,8 @@
     "@oclif/plugin-help": "^5"
   },
   "devDependencies": {
-    "@oclif/test": "^2",
     "@oclif/plugin-autocomplete": "^0.2.0",
+    "@oclif/test": "^2",
     "@types/chai": "^4",
     "@types/mocha": "^9.0.0",
     "@types/node": "^16.9.4",
@@ -30,18 +30,16 @@
     "eslint": "^7.32.0",
     "eslint-config-oclif": "^4",
     "eslint-config-oclif-typescript": "^1.0.2",
+    "gifwrap": "^0.10.1",
     "globby": "^11",
+    "jimp": "^0.9.3",
     "mocha": "^9",
     "oclif": "^3",
     "prettier": "^2.4.1",
     "shx": "^0.3.3",
     "ts-node": "^10.2.1",
     "tslib": "^2.3.1",
-    "typescript": "^4.4.3",
-    "del": "^5.1.0",
-    "gifencoder": "^2.0.1",
-    "jimp": "^0.9.3",
-    "png-file-stream": "^1.2.1"
+    "typescript": "^4.4.3"
   },
   "oclif": {
     "bin": "rk",
