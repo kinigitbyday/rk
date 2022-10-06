@@ -18,7 +18,8 @@
   ],
   "dependencies": {
     "@oclif/core": "^1.7.0",
-    "@oclif/plugin-help": "^5"
+    "@oclif/plugin-help": "^5",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@oclif/plugin-autocomplete": "^0.2.0",

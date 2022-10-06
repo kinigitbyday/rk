@@ -3,6 +3,7 @@ import * as path from 'path';
 import * as Jimp from 'jimp';
 import { GifFrame, GifUtil } from 'gifwrap';
 import { bottom } from '../../util';
+import * as _ from 'lodash';
 
 export default class Rainbowify extends Command {
   static description = 'Creates a rainbowified/party-fied gif from an image for slack';
@@ -18,6 +19,14 @@ export default class Rainbowify extends Command {
       required: false,
       exactlyOne: ['image', 'gif'],
       exclusive: ['colors'],
+    }),
+    useGifIntermediateFrames: Flags.boolean({
+      description:
+        'Whether or not to add intermediate frames to gifs to keep the fast rainbow effect. Can increase the size of the gif.',
+      required: false,
+      default: true,
+      allowNo: true,
+      exclusive: ['image'],
     }),
     outDir: Flags.string({
       description: 'Output file dir',
@@ -60,12 +69,13 @@ export default class Rainbowify extends Command {
 
     const frames = await this.getFramesAndOptions(
       flags.image
-        ? { type: 'image', frameCount: flags.colors, frameDelay: flags.delay, imagePath: flags.image }
-        : { type: 'gif', gifPath: flags.gif! },
+        ? { type: 'image', frameCount: flags.colors, imagePath: flags.image }
+        : { type: 'gif', gifPath: flags.gif!, useIntermediates: flags.useGifIntermediateFrames },
       {
         saturation: flags.saturation,
         lighten: flags.lighten,
         size: flags.size,
+        frameDelay: flags.delay,
       }
     );
 
@@ -82,8 +92,8 @@ export default class Rainbowify extends Command {
 
   private async getFramesAndOptions(
     input:
-      | { type: 'image'; imagePath: string; frameCount: number; frameDelay: number }
-      | { type: 'gif'; gifPath: string },
+      | { type: 'image'; imagePath: string; frameCount: number }
+      | { type: 'gif'; gifPath: string; useIntermediates: boolean },
     options: GifFrameOptions
   ): Promise<GifFrame[]> {
     switch (input.type) {
@@ -103,7 +113,7 @@ export default class Rainbowify extends Command {
               { apply: 'lighten', params: [options.lighten] },
             ]);
 
-          frames.push(new GifFrame(coloredImage.bitmap, { delayCentisecs: input.frameDelay }));
+          frames.push(new GifFrame(coloredImage.bitmap, { delayCentisecs: options.frameDelay }));
         }
 
         GifUtil.quantizeDekker(frames, 256);
@@ -115,29 +125,44 @@ export default class Rainbowify extends Command {
 
         const frames: GifFrame[] = [];
 
-        gif.frames.forEach((frame, i) => {
+        const intermediateFramesForFrame = (frame: GifFrame): number => {
+          if (true) {
+            Math.ceil(frame.delayCentisecs / options.frameDelay);
+          }
+
+          return 1;
+        };
+
+        let frameCount = 0;
+
+        gif.frames.forEach(frame => {
           const image = GifUtil.copyAsJimp(Jimp, frame).scaleToFit(options.size, options.size);
+          const intermediateFrameCount = intermediateFramesForFrame(frame);
 
-          const coloredImage = image
-            .clone()
-            .color([{ apply: 'hue', params: [(360.0 / gif.frames.length) * i] }])
-            // these are missing from the type of ColorActionName
-            .color([
-              // @ts-ignore
-              { apply: 'saturate', params: [options.saturation] },
-              // @ts-ignore
-              { apply: 'lighten', params: [options.lighten] },
-            ]);
+          for (let j = 0; j < intermediateFrameCount; j++) {
+            frameCount++;
 
-          frames.push(
-            new GifFrame(coloredImage.bitmap, {
-              delayCentisecs: frame.delayCentisecs,
-              yOffset: frame.yOffset,
-              xOffset: frame.xOffset,
-              disposalMethod: frame.disposalMethod,
-              isInterlaced: frame.interlaced,
-            })
-          );
+            const coloredImage = image
+              .clone()
+              .color([{ apply: 'hue', params: [((360.0 / gif.frames.length) * frameCount) % 360] }])
+              // these are missing from the type of ColorActionName
+              .color([
+                // @ts-ignore
+                { apply: 'saturate', params: [options.saturation] },
+                // @ts-ignore
+                { apply: 'lighten', params: [options.lighten] },
+              ]);
+
+            frames.push(
+              new GifFrame(coloredImage.bitmap, {
+                delayCentisecs: Math.min(options.frameDelay, frame.delayCentisecs),
+                yOffset: frame.yOffset,
+                xOffset: frame.xOffset,
+                disposalMethod: frame.disposalMethod,
+                isInterlaced: frame.interlaced,
+              })
+            );
+          }
         });
 
         GifUtil.quantizeDekker(frames, 256);
@@ -154,4 +179,5 @@ interface GifFrameOptions {
   saturation: number;
   lighten: number;
   size: number;
+  frameDelay: number;
 }
