@@ -9,12 +9,15 @@ Command line tools
 # Commands
 <!-- commands -->
 * [`rk adventofcode:2022:day1:max-sum`](#rk-adventofcode2022day1max-sum)
+* [`rk adventofcode:2022:day2:rock-paper-scissors`](#rk-adventofcode2022day2rock-paper-scissors)
+* [`rk adventofcode:2022:day2:rock-paper-scissors-2`](#rk-adventofcode2022day2rock-paper-scissors-2)
+* [`rk adventofcode:2022:day2:types`](#rk-adventofcode2022day2types)
 * [`rk help [COMMAND]`](#rk-help-command)
 * [`rk random:rainbowify`](#rk-randomrainbowify)
 
 ## `rk adventofcode:2022:day1:max-sum`
 
-Given a list of groups of numbers, calculates the group with the highest total and returns that total
+Given a list of groups of numbers, calculates the top groups with the highest total and returns their sum. https://adventofcode.com/2022/day/2
 
 ```
 USAGE
@@ -26,10 +29,59 @@ FLAGS
   --top=<value>            [default: 1] The number of maximum values to take and sum together.
 
 DESCRIPTION
-  Given a list of groups of numbers, calculates the group with the highest total and returns that total
+  Given a list of groups of numbers, calculates the top groups with the highest total and returns their sum.
+  https://adventofcode.com/2022/day/2
 ```
 
 _See code: [dist/commands/adventofcode/2022/day1/max-sum.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/adventofcode/2022/day1/max-sum.ts)_
+
+## `rk adventofcode:2022:day2:rock-paper-scissors`
+
+Given a list of pairs of head to head rock paper scissors, calculate the score for both players. https://adventofcode.com/2022/day/2
+
+```
+USAGE
+  $ rk adventofcode:2022:day2:rock-paper-scissors --groupingsFile <value> [--verbose]
+
+FLAGS
+  --groupingsFile=<value>  (required) A file containing pairs of encoded rock, paper, scissors games. Each game is a
+                           line. Two encoded letters representing player selections per line
+  --verbose
+
+DESCRIPTION
+  Given a list of pairs of head to head rock paper scissors, calculate the score for both players.
+  https://adventofcode.com/2022/day/2
+```
+
+_See code: [dist/commands/adventofcode/2022/day2/rock-paper-scissors.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/adventofcode/2022/day2/rock-paper-scissors.ts)_
+
+## `rk adventofcode:2022:day2:rock-paper-scissors-2`
+
+Given a list of pairs of one player's rock, paper, scissors choices and the desired result, calculate the scores for each players. https://adventofcode.com/2022/day/2#part2
+
+```
+USAGE
+  $ rk adventofcode:2022:day2:rock-paper-scissors-2 --groupingsFile <value> [--verbose]
+
+FLAGS
+  --groupingsFile=<value>  (required) A file containing pairs of encoded rock, paper, scissors games. Each game is a
+                           line. One encoded letter representing player selection and one encoded letter representing
+                           the desired result per line
+  --verbose
+
+DESCRIPTION
+  Given a list of pairs of one player's rock, paper, scissors choices and the desired result, calculate the scores for
+  each players. https://adventofcode.com/2022/day/2#part2
+```
+
+_See code: [dist/commands/adventofcode/2022/day2/rock-paper-scissors-2.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/adventofcode/2022/day2/rock-paper-scissors-2.ts)_
+
+## `rk adventofcode:2022:day2:types`
+
+```
+USAGE
+  $ rk adventofcode:2022:day2:types
+```
 
 ## `rk help [COMMAND]`
 

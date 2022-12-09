@@ -5,7 +5,7 @@ import * as _ from 'lodash';
 
 export default class MaxSum extends Command {
   static description =
-    'Given a list of groups of numbers, calculates the group with the highest total and returns that total';
+    'Given a list of groups of numbers, calculates the top groups with the highest total and returns their sum. https://adventofcode.com/2022/day/2';
 
   static flags = {
     groupingsFile: Flags.file({
