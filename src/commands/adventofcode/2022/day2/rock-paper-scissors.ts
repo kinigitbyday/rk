@@ -9,15 +9,11 @@ export default class RockPaperScissors extends Day2Command {
     'Given a list of pairs of head to head rock paper scissors, calculate the score for both players. https://adventofcode.com/2022/day/2';
 
   static flags = {
-    groupingsFile: Flags.file({
+    file: Flags.file({
       exists: true,
       required: true,
       description:
         'A file containing pairs of encoded rock, paper, scissors games. Each game is a line. Two encoded letters representing player selections per line',
-    }),
-    verbose: Flags.boolean({
-      required: false,
-      default: false,
     }),
   };
 
@@ -35,7 +31,7 @@ export default class RockPaperScissors extends Day2Command {
 
     CliUx.ux.action.start(`Calculating player scores`);
 
-    const matches = await this.parseFile(flags.groupingsFile!);
+    const matches = await this.parseFile(flags.file!);
 
     const matchResults = matches.map<GameResult | undefined>(encodedMatch => {
       const [player1Encoded, player2Encoded] = encodedMatch.split(' ');
@@ -66,9 +62,7 @@ export default class RockPaperScissors extends Day2Command {
       };
     });
 
-    if (flags.verbose) {
-      CliUx.ux.styledJSON(matchResults);
-    }
+    CliUx.ux.debug(JSON.stringify(matchResults));
 
     CliUx.ux.info(`Player1: ${_.sum(matchResults.map(r => (r ? this.scoreMatch(r.player1) : 0)))}`);
     CliUx.ux.info(`Player2: ${_.sum(matchResults.map(r => (r ? this.scoreMatch(r.player2) : 0)))}`);

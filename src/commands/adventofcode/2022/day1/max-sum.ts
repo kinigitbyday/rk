@@ -7,11 +7,11 @@ export default class MaxSum extends Adventofcode2022Command {
     'Given a list of groups of numbers, calculates the top groups with the highest total and returns their sum. https://adventofcode.com/2022/day/2';
 
   static flags = {
-    groupingsFile: Flags.file({
+    file: Flags.file({
       exists: true,
       required: true,
       description:
-        'A file containing groups of numbers. Numbers are one per line and group are separated by empty lines.',
+        'A file containing groups of numbers. Numbers are one per line and groups are separated by empty lines.',
     }),
     top: Flags.integer({
       required: false,
@@ -25,7 +25,7 @@ export default class MaxSum extends Adventofcode2022Command {
 
     CliUx.ux.action.start(`Calculating max, top ${flags.top}`);
 
-    const numbers = await this.parseFile(flags.groupingsFile!);
+    const numbers = await this.parseFile(flags.file!);
 
     const sums = [];
 

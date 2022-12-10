@@ -69,7 +69,7 @@ export default class RucksackDuplicates extends Adventofcode2022Command {
     'Also finds the badge to label the rucksacks with. Rucksacks are grouped into sets of three and the badge can be identified as the only item contained in all three: https://adventofcode.com/2022/day/3#part2';
 
   static flags = {
-    groupingsFile: Flags.file({
+    file: Flags.file({
       exists: true,
       required: true,
       description:
@@ -81,10 +81,6 @@ export default class RucksackDuplicates extends Adventofcode2022Command {
       description: 'The number of compartments per rucksack. Defaults to 2.',
       default: 2,
     }),
-    verbose: Flags.boolean({
-      required: false,
-      default: false,
-    }),
   };
 
   async run() {
@@ -92,23 +88,19 @@ export default class RucksackDuplicates extends Adventofcode2022Command {
 
     CliUx.ux.action.start('Finding errors in rucksack packing...');
 
-    const rucksacks = await this.parseFile(flags.groupingsFile!);
+    const rucksacks = await this.parseFile(flags.file!);
 
     const asItems = rucksacks.map(r =>
       r.split('').map<ItemPriority>(c => ItemPriority[c as keyof typeof ItemPriority])
     );
 
-    if (flags.verbose) {
-      CliUx.ux.styledJSON(rucksacks);
-    }
+    CliUx.ux.debug(JSON.stringify(rucksacks));
 
     const processed = asItems.map(r => this.processRucksack(r, flags.compartmentsPerRucksack));
 
     const badges = this.calculateRucksackBadges(asItems);
 
-    if (flags.verbose) {
-      CliUx.ux.styledJSON(processed);
-    }
+    CliUx.ux.debug(JSON.stringify(processed));
 
     CliUx.ux.info(`Sum of error priorities: ${_.sum(_.flatMap(processed, p => p.itemsInMoreThanOneCompartment))}`);
     CliUx.ux.info(`Sum of badges: ${_.sum(badges)}`);

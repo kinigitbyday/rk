@@ -1,0 +1,28 @@
+import { Adventofcode2022Command } from '../adventofcode-2022-command';
+import { CliUx, Flags } from '@oclif/core';
+
+export default class AdventQuestionTemplate extends Adventofcode2022Command {
+  static description = '';
+
+  static flags = {
+    file: Flags.file({
+      exists: true,
+      required: true,
+      description: 'A file containing ',
+    }),
+    verbose: Flags.boolean({
+      required: false,
+      default: false,
+    }),
+  };
+
+  async run() {
+    const { flags } = await this.parse(AdventQuestionTemplate);
+
+    CliUx.ux.action.start('Starting...');
+
+    const file = await this.parseFile(flags.file!);
+
+    CliUx.ux.action.stop();
+  }
+}

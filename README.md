@@ -14,6 +14,7 @@ Command line tools
 * [`rk adventofcode:2022:day2:rock-paper-scissors`](#rk-adventofcode2022day2rock-paper-scissors)
 * [`rk adventofcode:2022:day2:rock-paper-scissors-2`](#rk-adventofcode2022day2rock-paper-scissors-2)
 * [`rk adventofcode:2022:day3:rucksack-duplicates`](#rk-adventofcode2022day3rucksack-duplicates)
+* [`rk adventofcode:2022:day4:camp-cleanup-overlap`](#rk-adventofcode2022day4camp-cleanup-overlap)
 * [`rk help [COMMAND]`](#rk-help-command)
 * [`rk random:rainbowify`](#rk-randomrainbowify)
 
@@ -32,12 +33,12 @@ Given a list of groups of numbers, calculates the top groups with the highest to
 
 ```
 USAGE
-  $ rk adventofcode:2022:day1:max-sum --groupingsFile <value> [--top <value>]
+  $ rk adventofcode:2022:day1:max-sum --file <value> [--top <value>]
 
 FLAGS
-  --groupingsFile=<value>  (required) A file containing groups of numbers. Numbers are one per line and group are
-                           separated by empty lines.
-  --top=<value>            [default: 1] The number of maximum values to take and sum together.
+  --file=<value>  (required) A file containing groups of numbers. Numbers are one per line and groups are separated by
+                  empty lines.
+  --top=<value>   [default: 1] The number of maximum values to take and sum together.
 
 DESCRIPTION
   Given a list of groups of numbers, calculates the top groups with the highest total and returns their sum.
@@ -61,12 +62,11 @@ Given a list of pairs of head to head rock paper scissors, calculate the score f
 
 ```
 USAGE
-  $ rk adventofcode:2022:day2:rock-paper-scissors --groupingsFile <value> [--verbose]
+  $ rk adventofcode:2022:day2:rock-paper-scissors --file <value>
 
 FLAGS
-  --groupingsFile=<value>  (required) A file containing pairs of encoded rock, paper, scissors games. Each game is a
-                           line. Two encoded letters representing player selections per line
-  --verbose
+  --file=<value>  (required) A file containing pairs of encoded rock, paper, scissors games. Each game is a line. Two
+                  encoded letters representing player selections per line
 
 DESCRIPTION
   Given a list of pairs of head to head rock paper scissors, calculate the score for both players.
@@ -81,13 +81,12 @@ Given a list of pairs of one player's rock, paper, scissors choices and the desi
 
 ```
 USAGE
-  $ rk adventofcode:2022:day2:rock-paper-scissors-2 --groupingsFile <value> [--verbose]
+  $ rk adventofcode:2022:day2:rock-paper-scissors-2 --file <value>
 
 FLAGS
-  --groupingsFile=<value>  (required) A file containing pairs of encoded rock, paper, scissors games. Each game is a
-                           line. One encoded letter representing player selection and one encoded letter representing
-                           the desired result per line
-  --verbose
+  --file=<value>  (required) A file containing pairs of encoded rock, paper, scissors games. Each game is a line. One
+                  encoded letter representing player selection and one encoded letter representing the desired result
+                  per line
 
 DESCRIPTION
   Given a list of pairs of one player's rock, paper, scissors choices and the desired result, calculate the scores for
@@ -102,14 +101,13 @@ Given a list of items per rucksack, find the items that exist in both compartmen
 
 ```
 USAGE
-  $ rk adventofcode:2022:day3:rucksack-duplicates --groupingsFile <value> [-c <value>] [--verbose]
+  $ rk adventofcode:2022:day3:rucksack-duplicates --file <value> [-c <value>]
 
 FLAGS
   -c, --compartmentsPerRucksack=<value>  [default: 2] The number of compartments per rucksack. Defaults to 2.
-  --groupingsFile=<value>                (required) A file containing the items in each rucksack. Each line is a
+  --file=<value>                         (required) A file containing the items in each rucksack. Each line is a
                                          rucksack, each letter is an item. Each rucksack has a variable number of
                                          compartments (but all have the same number).
-  --verbose
 
 DESCRIPTION
   Given a list of items per rucksack, find the items that exist in both compartments and score them on priority:
@@ -120,6 +118,23 @@ DESCRIPTION
 ```
 
 _See code: [dist/commands/adventofcode/2022/day3/rucksack-duplicates.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/adventofcode/2022/day3/rucksack-duplicates.ts)_
+
+## `rk adventofcode:2022:day4:camp-cleanup-overlap`
+
+Given pairs of ranges of cleaning zones, find the number with overlapped sections: https://adventofcode.com/2022/day/4
+
+```
+USAGE
+  $ rk adventofcode:2022:day4:camp-cleanup-overlap --file <value>
+
+FLAGS
+  --file=<value>  (required) A file containing pairs of numerical ranges. One pair per line.
+
+DESCRIPTION
+  Given pairs of ranges of cleaning zones, find the number with overlapped sections: https://adventofcode.com/2022/day/4
+```
+
+_See code: [dist/commands/adventofcode/2022/day4/camp-cleanup-overlap.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/adventofcode/2022/day4/camp-cleanup-overlap.ts)_
 
 ## `rk help [COMMAND]`
 
