@@ -1,8 +1,5 @@
-import { CliUx, Command, Flags } from '@oclif/core';
-import * as fs from 'fs-extra';
-import * as os from 'os';
+import { CliUx, Flags } from '@oclif/core';
 import * as _ from 'lodash';
-import { bottom } from '../../../../util';
 import { Day2Command, GameResult, PlayerResult, prettyOption, Result, RPS } from './day2';
 
 type EncodedRPS = 'A' | 'B' | 'C' | 'X' | 'Y' | 'Z';
@@ -38,7 +35,7 @@ export default class RockPaperScissors extends Day2Command {
 
     CliUx.ux.action.start(`Calculating player scores`);
 
-    const matches = (await fs.readFile(flags.groupingsFile!)).toString().split(os.EOL);
+    const matches = await this.parseFile(flags.groupingsFile!);
 
     const matchResults = matches.map<GameResult | undefined>(encodedMatch => {
       const [player1Encoded, player2Encoded] = encodedMatch.split(' ');

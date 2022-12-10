@@ -8,12 +8,23 @@ Command line tools
 <!-- tocstop -->
 # Commands
 <!-- commands -->
+* [`rk adventofcode:2022:adventofcode-2022-command`](#rk-adventofcode2022adventofcode-2022-command)
 * [`rk adventofcode:2022:day1:max-sum`](#rk-adventofcode2022day1max-sum)
+* [`rk adventofcode:2022:day2:day2`](#rk-adventofcode2022day2day2)
 * [`rk adventofcode:2022:day2:rock-paper-scissors`](#rk-adventofcode2022day2rock-paper-scissors)
 * [`rk adventofcode:2022:day2:rock-paper-scissors-2`](#rk-adventofcode2022day2rock-paper-scissors-2)
-* [`rk adventofcode:2022:day2:types`](#rk-adventofcode2022day2types)
+* [`rk adventofcode:2022:day3:rucksack-duplicates`](#rk-adventofcode2022day3rucksack-duplicates)
 * [`rk help [COMMAND]`](#rk-help-command)
 * [`rk random:rainbowify`](#rk-randomrainbowify)
+
+## `rk adventofcode:2022:adventofcode-2022-command`
+
+```
+USAGE
+  $ rk adventofcode:2022:adventofcode-2022-command
+```
+
+_See code: [dist/commands/adventofcode/2022/adventofcode-2022-command.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/adventofcode/2022/adventofcode-2022-command.ts)_
 
 ## `rk adventofcode:2022:day1:max-sum`
 
@@ -34,6 +45,15 @@ DESCRIPTION
 ```
 
 _See code: [dist/commands/adventofcode/2022/day1/max-sum.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/adventofcode/2022/day1/max-sum.ts)_
+
+## `rk adventofcode:2022:day2:day2`
+
+```
+USAGE
+  $ rk adventofcode:2022:day2:day2
+```
+
+_See code: [dist/commands/adventofcode/2022/day2/day2.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/adventofcode/2022/day2/day2.ts)_
 
 ## `rk adventofcode:2022:day2:rock-paper-scissors`
 
@@ -76,12 +96,30 @@ DESCRIPTION
 
 _See code: [dist/commands/adventofcode/2022/day2/rock-paper-scissors-2.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/adventofcode/2022/day2/rock-paper-scissors-2.ts)_
 
-## `rk adventofcode:2022:day2:types`
+## `rk adventofcode:2022:day3:rucksack-duplicates`
+
+Given a list of items per rucksack, find the items that exist in both compartments and score them on priority: https://adventofcode.com/2022/day/3
 
 ```
 USAGE
-  $ rk adventofcode:2022:day2:types
+  $ rk adventofcode:2022:day3:rucksack-duplicates --groupingsFile <value> [-c <value>] [--verbose]
+
+FLAGS
+  -c, --compartmentsPerRucksack=<value>  [default: 2] The number of compartments per rucksack. Defaults to 2.
+  --groupingsFile=<value>                (required) A file containing the items in each rucksack. Each line is a
+                                         rucksack, each letter is an item. Each rucksack has a variable number of
+                                         compartments (but all have the same number).
+  --verbose
+
+DESCRIPTION
+  Given a list of items per rucksack, find the items that exist in both compartments and score them on priority:
+  https://adventofcode.com/2022/day/3
+
+  Also finds the badge to label the rucksacks with. Rucksacks are grouped into sets of three and the badge can be
+  identified as the only item contained in all three: https://adventofcode.com/2022/day/3#part2
 ```
+
+_See code: [dist/commands/adventofcode/2022/day3/rucksack-duplicates.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/adventofcode/2022/day3/rucksack-duplicates.ts)_
 
 ## `rk help [COMMAND]`
 

@@ -1,9 +1,8 @@
-import { CliUx, Command, Flags } from '@oclif/core';
-import * as os from 'os';
-import * as fs from 'fs-extra';
+import { CliUx, Flags } from '@oclif/core';
 import * as _ from 'lodash';
+import { Adventofcode2022Command } from '../adventofcode-2022-command';
 
-export default class MaxSum extends Command {
+export default class MaxSum extends Adventofcode2022Command {
   static description =
     'Given a list of groups of numbers, calculates the top groups with the highest total and returns their sum. https://adventofcode.com/2022/day/2';
 
@@ -26,7 +25,7 @@ export default class MaxSum extends Command {
 
     CliUx.ux.action.start(`Calculating max, top ${flags.top}`);
 
-    const numbers = (await fs.readFile(flags.groupingsFile!)).toString().split(os.EOL);
+    const numbers = await this.parseFile(flags.groupingsFile!);
 
     const sums = [];
 

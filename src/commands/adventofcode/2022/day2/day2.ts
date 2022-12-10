@@ -1,5 +1,5 @@
 import { bottom } from '../../../../util';
-import { Command } from '@oclif/core';
+import { Adventofcode2022Command } from '../adventofcode-2022-command';
 
 export enum RPS {
   Rock = 1,
@@ -37,4 +37,4 @@ export function prettyOption(rps: RPS) {
   }
 }
 
-export abstract class Day2Command extends Command {}
+export abstract class Day2Command extends Adventofcode2022Command {}
