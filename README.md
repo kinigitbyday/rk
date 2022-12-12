@@ -143,10 +143,11 @@ Runs a set of crane restacking instructions on an initial stacked box state: htt
 
 ```
 USAGE
-  $ rk adventofcode:2022:day5:box-stacking --file <value> [--verbose]
+  $ rk adventofcode:2022:day5:box-stacking --file <value> [--verbose] [--boxesMoveOneAtATime]
 
 FLAGS
-  --file=<value>  (required) A file containing the initial stacks and the crane instructions
+  --[no-]boxesMoveOneAtATime
+  --file=<value>              (required) A file containing the initial stacks and the crane instructions
   --verbose
 
 DESCRIPTION

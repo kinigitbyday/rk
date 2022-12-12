@@ -1,5 +1,6 @@
 import { Adventofcode2022Command } from '../adventofcode-2022-command';
 import { CliUx, Flags } from '@oclif/core';
+import * as _ from 'lodash';
 
 export default class AdventQuestionTemplate extends Adventofcode2022Command {
   static description = '';
