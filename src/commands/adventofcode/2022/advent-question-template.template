@@ -10,10 +10,6 @@ export default class AdventQuestionTemplate extends Adventofcode2022Command {
       required: true,
       description: 'A file containing ',
     }),
-    verbose: Flags.boolean({
-      required: false,
-      default: false,
-    }),
   };
 
   async run() {

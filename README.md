@@ -15,6 +15,7 @@ Command line tools
 * [`rk adventofcode:2022:day2:rock-paper-scissors-2`](#rk-adventofcode2022day2rock-paper-scissors-2)
 * [`rk adventofcode:2022:day3:rucksack-duplicates`](#rk-adventofcode2022day3rucksack-duplicates)
 * [`rk adventofcode:2022:day4:camp-cleanup-overlap`](#rk-adventofcode2022day4camp-cleanup-overlap)
+* [`rk adventofcode:2022:day5:box-stacking`](#rk-adventofcode2022day5box-stacking)
 * [`rk help [COMMAND]`](#rk-help-command)
 * [`rk random:rainbowify`](#rk-randomrainbowify)
 
@@ -135,6 +136,24 @@ DESCRIPTION
 ```
 
 _See code: [dist/commands/adventofcode/2022/day4/camp-cleanup-overlap.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/adventofcode/2022/day4/camp-cleanup-overlap.ts)_
+
+## `rk adventofcode:2022:day5:box-stacking`
+
+Runs a set of crane restacking instructions on an initial stacked box state: https://adventofcode.com/2022/day/5
+
+```
+USAGE
+  $ rk adventofcode:2022:day5:box-stacking --file <value> [--verbose]
+
+FLAGS
+  --file=<value>  (required) A file containing the initial stacks and the crane instructions
+  --verbose
+
+DESCRIPTION
+  Runs a set of crane restacking instructions on an initial stacked box state: https://adventofcode.com/2022/day/5
+```
+
+_See code: [dist/commands/adventofcode/2022/day5/box-stacking.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/adventofcode/2022/day5/box-stacking.ts)_
 
 ## `rk help [COMMAND]`
 
