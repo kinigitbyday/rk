@@ -16,6 +16,8 @@ Command line tools
 * [`rk adventofcode:2022:day3:rucksack-duplicates`](#rk-adventofcode2022day3rucksack-duplicates)
 * [`rk adventofcode:2022:day4:camp-cleanup-overlap`](#rk-adventofcode2022day4camp-cleanup-overlap)
 * [`rk adventofcode:2022:day5:box-stacking`](#rk-adventofcode2022day5box-stacking)
+* [`rk adventofcode:2022:day6:unique-n-gram`](#rk-adventofcode2022day6unique-n-gram)
+* [`rk dev:git:switch-shortcut-branch`](#rk-devgitswitch-shortcut-branch)
 * [`rk help [COMMAND]`](#rk-help-command)
 * [`rk random:rainbowify`](#rk-randomrainbowify)
 
@@ -143,18 +145,52 @@ Runs a set of crane restacking instructions on an initial stacked box state: htt
 
 ```
 USAGE
-  $ rk adventofcode:2022:day5:box-stacking --file <value> [--verbose] [--boxesMoveOneAtATime]
+  $ rk adventofcode:2022:day5:box-stacking --file <value> [--boxesMoveOneAtATime]
 
 FLAGS
   --[no-]boxesMoveOneAtATime
   --file=<value>              (required) A file containing the initial stacks and the crane instructions
-  --verbose
 
 DESCRIPTION
   Runs a set of crane restacking instructions on an initial stacked box state: https://adventofcode.com/2022/day/5
 ```
 
 _See code: [dist/commands/adventofcode/2022/day5/box-stacking.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/adventofcode/2022/day5/box-stacking.ts)_
+
+## `rk adventofcode:2022:day6:unique-n-gram`
+
+Finds the first n-gram where all the characters are unique: https://adventofcode.com/2022/day/6
+
+```
+USAGE
+  $ rk adventofcode:2022:day6:unique-n-gram --file <value> [--n <value>]
+
+FLAGS
+  --file=<value>  (required) A file containing sequences of characters, each sequence on its own line
+  --n=<value>     [default: 4] The size of the n-gram to detect
+
+DESCRIPTION
+  Finds the first n-gram where all the characters are unique: https://adventofcode.com/2022/day/6
+```
+
+_See code: [dist/commands/adventofcode/2022/day6/unique-n-gram.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/adventofcode/2022/day6/unique-n-gram.ts)_
+
+## `rk dev:git:switch-shortcut-branch`
+
+Switches to a branch by a shortcut name
+
+```
+USAGE
+  $ rk dev:git:switch-shortcut-branch --token <value>
+
+FLAGS
+  --token=<value>  (required)
+
+DESCRIPTION
+  Switches to a branch by a shortcut name
+```
+
+_See code: [dist/commands/dev/git/switch-shortcut-branch.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/dev/git/switch-shortcut-branch.ts)_
 
 ## `rk help [COMMAND]`
 
