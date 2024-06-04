@@ -45,7 +45,7 @@ export default class SwitchShortcutBranch extends Command {
     if (ticket.type === 'new') {
       const name = await input({ message: 'Ticket title?' });
 
-      const newTicket = await this.createTicket(flags.token, name, tickets.user.id);
+      const newTicket = await this.createTicket(flags.token, name);
 
       const branch = `${tickets.user.name}/sc-${newTicket.id}/${name
           .replace(/[^a-zA-Z0-9\[\]]/g, '-').replace(/[\[\]]/g, '')}`.slice(0, 244);
@@ -63,13 +63,12 @@ export default class SwitchShortcutBranch extends Command {
     }
   }
 
-  private async createTicket(token: string, name: string, owner: string): Promise<Story> {
+  private async createTicket(token: string, name: string): Promise<Story> {
     const shortcut = new ShortcutClient(token);
 
     const ticket = await shortcut.createStory({
       name,
       description: 'Created by nb',
-      owner_ids: [owner],
     });
 
     return ticket.data;
@@ -80,7 +79,7 @@ export default class SwitchShortcutBranch extends Command {
 
     const me = await shortcut.getCurrentMemberInfo();
 
-    const tickets = await shortcut.searchStories({ query: `owner:${me.data.mention_name}`});
+    const tickets = await shortcut.searchStories({ query: `-is:done owner:${me.data.mention_name}`});
 
     return { tickets: tickets.data.data, user: { name: me.data.mention_name, id: me.data.id } };
   }
