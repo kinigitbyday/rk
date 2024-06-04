@@ -6,6 +6,8 @@ import { select, input } from "@inquirer/prompts";
 
 import * as util from 'util';
 import { exec as execNonPromise } from 'child_process';
+import {table} from "@oclif/core/lib/cli-ux/styled/table";
+import flags = table.flags;
 const exec = util.promisify(execNonPromise);
 
 type StoryType = 'feature' | 'bug' | 'chore';
@@ -16,6 +18,7 @@ interface CreatedBranchTicket {
   id: string;
   url: string;
   storyType: StoryType;
+  ownerIds?: string[];
 }
 
 type BranchTicket = CreatedBranchTicket | {
@@ -31,7 +34,8 @@ export default class SwitchShortcutBranch extends Command {
   static description = 'Switches to a branch by a shortcut name';
 
   static flags = {
-      token: Flags.string({ required: false, default: process.env.SHORTCUT_API_TOKEN }),
+    token: Flags.string({ required: false, default: process.env.SHORTCUT_API_TOKEN }),
+    readyForDevState: Flags.string({ required: false, default: 'Ready For Development' }),
   };
 
   async run() {
@@ -41,7 +45,7 @@ export default class SwitchShortcutBranch extends Command {
       throw new Error('Shortcut API token is required. Use --token or SHORTCUT_API_TOKEN env variable');
     }
 
-    const tickets = await this.listTickets(flags.token);
+    const tickets = await this.listTickets(flags.token, flags.readyForDevState);
 
     this.log(JSON.stringify(tickets));
 
@@ -55,8 +59,10 @@ export default class SwitchShortcutBranch extends Command {
           id: ticket.id.toString(),
           url: ticket.app_url,
           storyType: ticket.story_type as StoryType,
+          ownerIds: ticket.owner_ids,
         } as BranchTicket,
       })).concat([{ name: 'New ticket', value: { type: 'new' } as BranchTicket }]),
+      loop: false
     });
 
     if (ticket.type === 'new') {
@@ -88,10 +94,20 @@ export default class SwitchShortcutBranch extends Command {
     } else {
       const branchName = this.ticketBranchName(tickets.user, ticket)
 
+      if (!ticket.ownerIds?.includes(tickets.user.id)) {
+        await this.assignUserToTicket(flags.token, ticket.id, tickets.user.id);
+      }
+
       this.log(`Switching to branch ${branchName} for existing ticket ${ticket.url}`);
 
       await exec(`git sb ${branchName}`);
     }
+  }
+
+  private async assignUserToTicket(token: string, ticketId: string, userId: string): Promise<void> {
+    const shortcut = new ShortcutClient(token);
+
+    await shortcut.updateStory(Number(ticketId), { owner_ids: [userId] });
   }
 
   private async createTicket(token: string, createTicket: CreateStoryParams): Promise<Story> {
@@ -102,14 +118,15 @@ export default class SwitchShortcutBranch extends Command {
     return ticket.data;
   }
 
-  private async listTickets(token: string): Promise<{ tickets: StorySearchResult[], user: UserDetails}> {
+  private async listTickets(token: string, readyForDevState: string): Promise<{ tickets: StorySearchResult[], user: UserDetails}> {
     const shortcut = new ShortcutClient(token);
 
     const me = await shortcut.getCurrentMemberInfo();
 
-    const tickets = await shortcut.searchStories({ query: `is:done owner:${me.data.mention_name}`});
+    const assignedNonDone = await shortcut.searchStories({ query: `!is:done owner:${me.data.mention_name}`});
+    const unassignedReadyForDev = await shortcut.searchStories({ query: `-has:owner state:"${readyForDevState}"` });
 
-    return { tickets: tickets.data.data, user: { username: me.data.mention_name, id: me.data.id } };
+    return { tickets: assignedNonDone.data.data.concat(unassignedReadyForDev.data.data), user: { username: me.data.mention_name, id: me.data.id } };
   }
 
   private ticketBranchName(user: UserDetails, ticket: CreatedBranchTicket): string {
