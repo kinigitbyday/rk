@@ -47,8 +47,6 @@ export default class SwitchShortcutBranch extends Command {
 
     const tickets = await this.listTickets(flags.token, flags.readyForDevState);
 
-    this.log(JSON.stringify(tickets));
-
     const ticket: BranchTicket = await select<BranchTicket>({
       message: 'What are you working on?',
       choices: tickets.tickets.map((ticket: StorySearchResult) => ({
@@ -136,6 +134,7 @@ export default class SwitchShortcutBranch extends Command {
         .toLowerCase()
         .replace(/[\[\]]/g, '')
         .replace(/\W/g, '-')
+        .replace(/--+/, '-')
         .replace(/[^a-z0-9-]/g, '')
         .slice(0, 50)
         .replace(/-$/, '');
