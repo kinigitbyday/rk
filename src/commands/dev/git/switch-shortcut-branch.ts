@@ -93,7 +93,7 @@ export default class SwitchShortcutBranch extends Command {
       const branchName = this.ticketBranchName(tickets.user, ticket)
 
       if (!ticket.ownerIds?.includes(tickets.user.id)) {
-        await this.assignUserToTicket(flags.token, ticket.id, tickets.user.id);
+        await this.assignUserToTicket(flags.token, ticket.id, tickets.user.id, ticket.ownerIds);
       }
 
       this.log(`Switching to branch ${branchName} for existing ticket ${ticket.url}`);
@@ -102,10 +102,10 @@ export default class SwitchShortcutBranch extends Command {
     }
   }
 
-  private async assignUserToTicket(token: string, ticketId: string, userId: string): Promise<void> {
+  private async assignUserToTicket(token: string, ticketId: string, userId: string, existingOwners?: string[]): Promise<void> {
     const shortcut = new ShortcutClient(token);
 
-    await shortcut.updateStory(Number(ticketId), { owner_ids: [userId] });
+    await shortcut.updateStory(Number(ticketId), { owner_ids: [...existingOwners ?? [], userId] });
   }
 
   private async createTicket(token: string, createTicket: CreateStoryParams): Promise<Story> {
@@ -121,8 +121,8 @@ export default class SwitchShortcutBranch extends Command {
 
     const me = await shortcut.getCurrentMemberInfo();
 
-    const assignedNonDone = await shortcut.searchStories({ query: `!is:done owner:${me.data.mention_name}`});
-    const unassignedReadyForDev = await shortcut.searchStories({ query: `-has:owner state:"${readyForDevState}"` });
+    const assignedNonDone = await shortcut.searchStories({ query: `-is:done owner:${me.data.mention_name}`});
+    const unassignedReadyForDev = await shortcut.searchStories({ query: `-owner:${me.data.mention_name} state:"${readyForDevState}"` });
 
     return { tickets: assignedNonDone.data.data.concat(unassignedReadyForDev.data.data), user: { username: me.data.mention_name, id: me.data.id } };
   }
