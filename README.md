@@ -28,8 +28,6 @@ USAGE
   $ rk adventofcode:2022:adventofcode-2022-command
 ```
 
-_See code: [dist/commands/adventofcode/2022/adventofcode-2022-command.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/adventofcode/2022/adventofcode-2022-command.ts)_
-
 ## `rk adventofcode:2022:day1:max-sum`
 
 Given a list of groups of numbers, calculates the top groups with the highest total and returns their sum. https://adventofcode.com/2022/day/2
@@ -48,16 +46,12 @@ DESCRIPTION
   https://adventofcode.com/2022/day/2
 ```
 
-_See code: [dist/commands/adventofcode/2022/day1/max-sum.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/adventofcode/2022/day1/max-sum.ts)_
-
 ## `rk adventofcode:2022:day2:day2`
 
 ```
 USAGE
   $ rk adventofcode:2022:day2:day2
 ```
-
-_See code: [dist/commands/adventofcode/2022/day2/day2.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/adventofcode/2022/day2/day2.ts)_
 
 ## `rk adventofcode:2022:day2:rock-paper-scissors`
 
@@ -76,8 +70,6 @@ DESCRIPTION
   https://adventofcode.com/2022/day/2
 ```
 
-_See code: [dist/commands/adventofcode/2022/day2/rock-paper-scissors.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/adventofcode/2022/day2/rock-paper-scissors.ts)_
-
 ## `rk adventofcode:2022:day2:rock-paper-scissors-2`
 
 Given a list of pairs of one player's rock, paper, scissors choices and the desired result, calculate the scores for each players. https://adventofcode.com/2022/day/2#part2
@@ -95,8 +87,6 @@ DESCRIPTION
   Given a list of pairs of one player's rock, paper, scissors choices and the desired result, calculate the scores for
   each players. https://adventofcode.com/2022/day/2#part2
 ```
-
-_See code: [dist/commands/adventofcode/2022/day2/rock-paper-scissors-2.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/adventofcode/2022/day2/rock-paper-scissors-2.ts)_
 
 ## `rk adventofcode:2022:day3:rucksack-duplicates`
 
@@ -120,8 +110,6 @@ DESCRIPTION
   identified as the only item contained in all three: https://adventofcode.com/2022/day/3#part2
 ```
 
-_See code: [dist/commands/adventofcode/2022/day3/rucksack-duplicates.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/adventofcode/2022/day3/rucksack-duplicates.ts)_
-
 ## `rk adventofcode:2022:day4:camp-cleanup-overlap`
 
 Given pairs of ranges of cleaning zones, find the number with overlapped sections: https://adventofcode.com/2022/day/4
@@ -136,8 +124,6 @@ FLAGS
 DESCRIPTION
   Given pairs of ranges of cleaning zones, find the number with overlapped sections: https://adventofcode.com/2022/day/4
 ```
-
-_See code: [dist/commands/adventofcode/2022/day4/camp-cleanup-overlap.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/adventofcode/2022/day4/camp-cleanup-overlap.ts)_
 
 ## `rk adventofcode:2022:day5:box-stacking`
 
@@ -155,8 +141,6 @@ DESCRIPTION
   Runs a set of crane restacking instructions on an initial stacked box state: https://adventofcode.com/2022/day/5
 ```
 
-_See code: [dist/commands/adventofcode/2022/day5/box-stacking.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/adventofcode/2022/day5/box-stacking.ts)_
-
 ## `rk adventofcode:2022:day6:unique-n-gram`
 
 Finds the first n-gram where all the characters are unique: https://adventofcode.com/2022/day/6
@@ -172,8 +156,6 @@ FLAGS
 DESCRIPTION
   Finds the first n-gram where all the characters are unique: https://adventofcode.com/2022/day/6
 ```
-
-_See code: [dist/commands/adventofcode/2022/day6/unique-n-gram.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/adventofcode/2022/day6/unique-n-gram.ts)_
 
 ## `rk dev:git:switch-shortcut-branch`
 
