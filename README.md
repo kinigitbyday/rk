@@ -66,8 +66,7 @@ FLAGS
   -b, --body=<value>     Pull request description
   -t, --title=<value>    (required) Pull request title
   --base=<value>         [default: master] Base branch
-  --githubToken=<value>  [default:
-                         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]
+  --githubToken=<value>
 
 DESCRIPTION
   Open a pull request using GitHub API
