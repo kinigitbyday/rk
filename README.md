@@ -5,7 +5,6 @@ Command line tools.
 
 Build with `yarn install && yarn build && yarn finalize`
 
-
 For autocomplete integration run:
 
 ```bash
@@ -17,7 +16,38 @@ rk autocomplete:script zsh
 <!-- tocstop -->
 # Commands
 <!-- commands -->
+* [`rk autocomplete [SHELL]`](#rk-autocomplete-shell)
 * [`rk help [COMMAND]`](#rk-help-command)
+* [`rk random:rainbowify`](#rk-randomrainbowify)
+
+## `rk autocomplete [SHELL]`
+
+display autocomplete installation instructions
+
+```
+USAGE
+  $ rk autocomplete [SHELL] [-r]
+
+ARGUMENTS
+  SHELL  shell type
+
+FLAGS
+  -r, --refresh-cache  Refresh cache (ignores displaying instructions)
+
+DESCRIPTION
+  display autocomplete installation instructions
+
+EXAMPLES
+  $ rk autocomplete
+
+  $ rk autocomplete bash
+
+  $ rk autocomplete zsh
+
+  $ rk autocomplete --refresh-cache
+```
+
+_See code: [@oclif/plugin-autocomplete](https://github.com/oclif/plugin-autocomplete/blob/v0.2.1/src/commands/autocomplete/index.ts)_
 
 ## `rk help [COMMAND]`
 
@@ -38,4 +68,31 @@ DESCRIPTION
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.1.10/src/commands/help.ts)_
+
+## `rk random:rainbowify`
+
+Creates a rainbowified/party-fied gif from an image for slack
+
+```
+USAGE
+  $ rk random:rainbowify [--gif <value> | --colors <value>] [--useGifIntermediateFrames | --image <value>] [--outDir
+    <value>] [--delay <value>] [--saturation <value>] [--lighten <value>] [--size <value>]
+
+FLAGS
+  --colors=<value>                 [default: 10] Number of colors to use
+  --delay=<value>                  [default: 3] Frame delay for the gif
+  --gif=<value>                    Gif to use
+  --image=<value>                  Image to use
+  --lighten=<value>                [default: 10] Lightening level to apply to each frame
+  --outDir=<value>                 [default: .] Output file dir
+  --saturation=<value>             [default: 50] Saturation level to apply to each frame
+  --size=<value>                   [default: 128] Squared size of the output image (scaled to fit)
+  --[no-]useGifIntermediateFrames  Whether or not to add intermediate frames to gifs to keep the fast rainbow effect.
+                                   Can increase the size of the gif.
+
+DESCRIPTION
+  Creates a rainbowified/party-fied gif from an image for slack
+```
+
+_See code: [dist/commands/random/rainbowify.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/random/rainbowify.ts)_
 <!-- commandsstop -->

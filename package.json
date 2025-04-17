@@ -2,11 +2,11 @@
   "name": "rk",
   "version": "0.0.0",
   "description": "Command line tools",
-  "author": "Reid Knight @kinigitbyday",
+  "author": "Anton Kropp @devshorts",
   "bin": {
     "rk": "./bin/run"
   },
-  "homepage": "https://github.com/kinigitbyday/rk",
+  "homepage": "https://github.com/devshorts/rk",
   "license": "MIT",
   "main": "dist/index.js",
   "repository": "kinigitbyday/rk",
@@ -62,12 +62,12 @@
     "lint": "eslint . --ext .ts --config .eslintrc",
     "speed-up": "oclif manifest",
     "regen-readme": "oclif readme",
-    "finalize": "yarn regen-readme && yarn speed-up && git add README.md oclif.manifest.json"
+    "finalize": "yarn build && yarn regen-readme && yarn speed-up && git add README.md oclif.manifest.json"
   },
   "engines": {
     "node": ">=20.0.0"
   },
-  "bugs": "https://github.com/kinigitbyday/rk/issues",
+  "bugs": "https://github.com/devshorts/rk/issues",
   "keywords": [
     "oclif"
   ],
