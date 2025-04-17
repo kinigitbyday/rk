@@ -39,11 +39,11 @@ export default class Pr extends Command {
   async run() {
     const { flags } = await this.parse(Pr);
 
-    if (flags.githubToken === undefined) {
+    if (flags.githubToken === undefined && !process.env.GITHUB_TOKEN) {
       throw new Error('Github API token is required with PR read/write permissions. Use --token or GITHUB_TOKEN env variable');
     }
 
-    const {stdout: branch} = await exec(`git rev-parse --abbrev-ref HEAD`)
+    const {stdout: branch} = await this.executeCommand(`git rev-parse --abbrev-ref HEAD`)
 
     const ticket = branch.split('/')[1];
 
@@ -51,7 +51,7 @@ export default class Pr extends Command {
     try {
       // Initialize Octokit with GitHub token
       const octokit = new Octokit({
-        auth: flags.githubToken,
+        auth: flags.githubToken || process.env.GITHUB_TOKEN,
       });
 
       // Get repository information from git config
@@ -70,7 +70,11 @@ export default class Pr extends Command {
 
       this.log(`Pull request created successfully: ${response.data.html_url}`);
     } catch (error) {
-      this.error(`Failed to create pull request: ${error}`);
+      if ((error as any).status == 404) {
+        this.error(`Unable to create pull request for branch '${branch}'. Does the branch exist upstream?`);
+      }else {
+        this.error(`Failed to create pull request: ${error}`);
+      }
     }
   }
 
