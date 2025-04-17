@@ -1,7 +1,16 @@
 rk
 =================
 
-Command line tools
+Command line tools.
+
+Build with `yarn install && yarn build && yarn finalize`
+
+
+For autocomplete integration run:
+
+```bash
+rk autocomplete:script zsh
+```
 
 <!-- toc -->
 * [Commands](#commands)

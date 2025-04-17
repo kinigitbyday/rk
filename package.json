@@ -52,7 +52,8 @@
     "bin": "rk",
     "commands": "./dist/commands",
     "plugins": [
-      "@oclif/plugin-help"
+      "@oclif/plugin-help",
+      "@oclif/plugin-autocomplete"
     ],
     "topicSeparator": ":"
   },
@@ -64,7 +65,7 @@
     "finalize": "yarn regen-readme && yarn speed-up && git add README.md oclif.manifest.json"
   },
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=20.0.0"
   },
   "bugs": "https://github.com/kinigitbyday/rk/issues",
   "keywords": [
