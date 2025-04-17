@@ -10,7 +10,7 @@ import Shortcut, { BranchTicket, CreatedBranchTicket, StoryType, UserDetails } f
 
 const exec = util.promisify(execNonPromise);
 
-class SwitchShortcutBranch extends Command {
+export default class SwitchShortcutBranch extends Command {
   static description = 'Switches to a branch by a shortcut name';
 
   static flags = {

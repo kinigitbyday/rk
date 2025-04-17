@@ -18,6 +18,7 @@ rk autocomplete:script zsh
 <!-- commands -->
 * [`rk autocomplete [SHELL]`](#rk-autocomplete-shell)
 * [`rk dev:git:resume-shortcut-branch`](#rk-devgitresume-shortcut-branch)
+* [`rk dev:git:switch-shortcut-branch`](#rk-devgitswitch-shortcut-branch)
 * [`rk help [COMMAND]`](#rk-help-command)
 * [`rk random:rainbowify`](#rk-randomrainbowify)
 
@@ -67,6 +68,24 @@ DESCRIPTION
 ```
 
 _See code: [dist/commands/dev/git/resume-shortcut-branch.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/dev/git/resume-shortcut-branch.ts)_
+
+## `rk dev:git:switch-shortcut-branch`
+
+Switches to a branch by a shortcut name
+
+```
+USAGE
+  $ rk dev:git:switch-shortcut-branch [--token <value>] [--readyForDevState <value>]
+
+FLAGS
+  --readyForDevState=<value>  [default: Ready For Development]
+  --token=<value>             [default: b9d37892-dd59-4f88-b545-1dafdf807ee5]
+
+DESCRIPTION
+  Switches to a branch by a shortcut name
+```
+
+_See code: [dist/commands/dev/git/switch-shortcut-branch.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/dev/git/switch-shortcut-branch.ts)_
 
 ## `rk help [COMMAND]`
 
