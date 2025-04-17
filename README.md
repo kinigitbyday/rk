@@ -1,161 +1,99 @@
 rk
 =================
 
-Command line tools
+Command line tools.
+
+Build with `yarn install && yarn build && yarn finalize`
+
+For autocomplete integration run:
+
+```bash
+rk autocomplete:script zsh
+```
 
 <!-- toc -->
 * [Commands](#commands)
 <!-- tocstop -->
 # Commands
 <!-- commands -->
-* [`rk adventofcode:2022:adventofcode-2022-command`](#rk-adventofcode2022adventofcode-2022-command)
-* [`rk adventofcode:2022:day1:max-sum`](#rk-adventofcode2022day1max-sum)
-* [`rk adventofcode:2022:day2:day2`](#rk-adventofcode2022day2day2)
-* [`rk adventofcode:2022:day2:rock-paper-scissors`](#rk-adventofcode2022day2rock-paper-scissors)
-* [`rk adventofcode:2022:day2:rock-paper-scissors-2`](#rk-adventofcode2022day2rock-paper-scissors-2)
-* [`rk adventofcode:2022:day3:rucksack-duplicates`](#rk-adventofcode2022day3rucksack-duplicates)
-* [`rk adventofcode:2022:day4:camp-cleanup-overlap`](#rk-adventofcode2022day4camp-cleanup-overlap)
-* [`rk adventofcode:2022:day5:box-stacking`](#rk-adventofcode2022day5box-stacking)
-* [`rk adventofcode:2022:day6:unique-n-gram`](#rk-adventofcode2022day6unique-n-gram)
+* [`rk autocomplete [SHELL]`](#rk-autocomplete-shell)
+* [`rk dev:git:pr`](#rk-devgitpr)
+* [`rk dev:git:resume-shortcut-branch`](#rk-devgitresume-shortcut-branch)
 * [`rk dev:git:switch-shortcut-branch`](#rk-devgitswitch-shortcut-branch)
 * [`rk help [COMMAND]`](#rk-help-command)
 * [`rk random:rainbowify`](#rk-randomrainbowify)
 
-## `rk adventofcode:2022:adventofcode-2022-command`
+## `rk autocomplete [SHELL]`
+
+display autocomplete installation instructions
 
 ```
 USAGE
-  $ rk adventofcode:2022:adventofcode-2022-command
-```
+  $ rk autocomplete [SHELL] [-r]
 
-## `rk adventofcode:2022:day1:max-sum`
-
-Given a list of groups of numbers, calculates the top groups with the highest total and returns their sum. https://adventofcode.com/2022/day/2
-
-```
-USAGE
-  $ rk adventofcode:2022:day1:max-sum --file <value> [--top <value>]
+ARGUMENTS
+  SHELL  shell type
 
 FLAGS
-  --file=<value>  (required) A file containing groups of numbers. Numbers are one per line and groups are separated by
-                  empty lines.
-  --top=<value>   [default: 1] The number of maximum values to take and sum together.
+  -r, --refresh-cache  Refresh cache (ignores displaying instructions)
 
 DESCRIPTION
-  Given a list of groups of numbers, calculates the top groups with the highest total and returns their sum.
-  https://adventofcode.com/2022/day/2
+  display autocomplete installation instructions
+
+EXAMPLES
+  $ rk autocomplete
+
+  $ rk autocomplete bash
+
+  $ rk autocomplete zsh
+
+  $ rk autocomplete --refresh-cache
 ```
 
-## `rk adventofcode:2022:day2:day2`
+_See code: [@oclif/plugin-autocomplete](https://github.com/oclif/plugin-autocomplete/blob/v0.2.1/src/commands/autocomplete/index.ts)_
+
+## `rk dev:git:pr`
+
+Open a pull request using GitHub API
 
 ```
 USAGE
-  $ rk adventofcode:2022:day2:day2
-```
-
-## `rk adventofcode:2022:day2:rock-paper-scissors`
-
-Given a list of pairs of head to head rock paper scissors, calculate the score for both players. https://adventofcode.com/2022/day/2
-
-```
-USAGE
-  $ rk adventofcode:2022:day2:rock-paper-scissors --file <value>
+  $ rk dev:git:pr [-t <value>] [-b <value>] [-T fix|feat|chore] [--base <value>] [--githubToken <value>]
 
 FLAGS
-  --file=<value>  (required) A file containing pairs of encoded rock, paper, scissors games. Each game is a line. Two
-                  encoded letters representing player selections per line
+  -T, --type=<option>    [default: fix] Pull request type (e.g., "fix", "feat")
+                         <options: fix|feat|chore>
+  -b, --body=<value>     Pull request description
+  -t, --title=<value>    Pull request title
+  --base=<value>         [default: master] Base branch
+  --githubToken=<value>
 
 DESCRIPTION
-  Given a list of pairs of head to head rock paper scissors, calculate the score for both players.
-  https://adventofcode.com/2022/day/2
+  Open a pull request using GitHub API
+
+EXAMPLES
+  $ rk dev:git:pr --title "fix: [SC-1234] - Update dependencies" --body "Description of changes" --base main --head feature-branch
 ```
 
-## `rk adventofcode:2022:day2:rock-paper-scissors-2`
+_See code: [dist/commands/dev/git/pr.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/dev/git/pr.ts)_
 
-Given a list of pairs of one player's rock, paper, scissors choices and the desired result, calculate the scores for each players. https://adventofcode.com/2022/day/2#part2
+## `rk dev:git:resume-shortcut-branch`
+
+Resumes shortcut branches
 
 ```
 USAGE
-  $ rk adventofcode:2022:day2:rock-paper-scissors-2 --file <value>
+  $ rk dev:git:resume-shortcut-branch [--token <value>] [--readyForDevState <value>]
 
 FLAGS
-  --file=<value>  (required) A file containing pairs of encoded rock, paper, scissors games. Each game is a line. One
-                  encoded letter representing player selection and one encoded letter representing the desired result
-                  per line
+  --readyForDevState=<value>  [default: Ready For Development]
+  --token=<value>             [default: b9d37892-dd59-4f88-b545-1dafdf807ee5]
 
 DESCRIPTION
-  Given a list of pairs of one player's rock, paper, scissors choices and the desired result, calculate the scores for
-  each players. https://adventofcode.com/2022/day/2#part2
+  Resumes shortcut branches
 ```
 
-## `rk adventofcode:2022:day3:rucksack-duplicates`
-
-Given a list of items per rucksack, find the items that exist in both compartments and score them on priority: https://adventofcode.com/2022/day/3
-
-```
-USAGE
-  $ rk adventofcode:2022:day3:rucksack-duplicates --file <value> [-c <value>]
-
-FLAGS
-  -c, --compartmentsPerRucksack=<value>  [default: 2] The number of compartments per rucksack. Defaults to 2.
-  --file=<value>                         (required) A file containing the items in each rucksack. Each line is a
-                                         rucksack, each letter is an item. Each rucksack has a variable number of
-                                         compartments (but all have the same number).
-
-DESCRIPTION
-  Given a list of items per rucksack, find the items that exist in both compartments and score them on priority:
-  https://adventofcode.com/2022/day/3
-
-  Also finds the badge to label the rucksacks with. Rucksacks are grouped into sets of three and the badge can be
-  identified as the only item contained in all three: https://adventofcode.com/2022/day/3#part2
-```
-
-## `rk adventofcode:2022:day4:camp-cleanup-overlap`
-
-Given pairs of ranges of cleaning zones, find the number with overlapped sections: https://adventofcode.com/2022/day/4
-
-```
-USAGE
-  $ rk adventofcode:2022:day4:camp-cleanup-overlap --file <value>
-
-FLAGS
-  --file=<value>  (required) A file containing pairs of numerical ranges. One pair per line.
-
-DESCRIPTION
-  Given pairs of ranges of cleaning zones, find the number with overlapped sections: https://adventofcode.com/2022/day/4
-```
-
-## `rk adventofcode:2022:day5:box-stacking`
-
-Runs a set of crane restacking instructions on an initial stacked box state: https://adventofcode.com/2022/day/5
-
-```
-USAGE
-  $ rk adventofcode:2022:day5:box-stacking --file <value> [--boxesMoveOneAtATime]
-
-FLAGS
-  --[no-]boxesMoveOneAtATime
-  --file=<value>              (required) A file containing the initial stacks and the crane instructions
-
-DESCRIPTION
-  Runs a set of crane restacking instructions on an initial stacked box state: https://adventofcode.com/2022/day/5
-```
-
-## `rk adventofcode:2022:day6:unique-n-gram`
-
-Finds the first n-gram where all the characters are unique: https://adventofcode.com/2022/day/6
-
-```
-USAGE
-  $ rk adventofcode:2022:day6:unique-n-gram --file <value> [--n <value>]
-
-FLAGS
-  --file=<value>  (required) A file containing sequences of characters, each sequence on its own line
-  --n=<value>     [default: 4] The size of the n-gram to detect
-
-DESCRIPTION
-  Finds the first n-gram where all the characters are unique: https://adventofcode.com/2022/day/6
-```
+_See code: [dist/commands/dev/git/resume-shortcut-branch.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/dev/git/resume-shortcut-branch.ts)_
 
 ## `rk dev:git:switch-shortcut-branch`
 
@@ -163,10 +101,12 @@ Switches to a branch by a shortcut name
 
 ```
 USAGE
-  $ rk dev:git:switch-shortcut-branch --token <value>
+  $ rk dev:git:switch-shortcut-branch [--token <value>] [--readyForDevState <value>] [-a]
 
 FLAGS
-  --token=<value>  (required)
+  -a, --all
+  --readyForDevState=<value>  [default: Ready For Development]
+  --token=<value>             [default: b9d37892-dd59-4f88-b545-1dafdf807ee5]
 
 DESCRIPTION
   Switches to a branch by a shortcut name
