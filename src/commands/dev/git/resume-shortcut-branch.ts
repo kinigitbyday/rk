@@ -1,4 +1,4 @@
-import { Command } from '@oclif/core';
+import { Command, Flags } from '@oclif/core';
 
 import * as util from 'util';
 import { exec as execNonPromise } from 'child_process';
@@ -7,15 +7,16 @@ import _ from 'lodash';
 
 const exec = util.promisify(execNonPromise);
 
-class ResumeShortcutBranch extends Command {
+export default class ResumeShortcutBranch extends Command {
   static description = 'Resumes shortcut branches';
 
   static flags = {
-
+    token: Flags.string({ required: false, default: process.env.SHORTCUT_API_TOKEN }),
+    readyForDevState: Flags.string({ required: false, default: 'Ready For Development' }),
   };
 
   async run() {
-    await this.parse(ResumeShortcutBranch);
+    const { } = await this.parse(ResumeShortcutBranch);
 
     const branches = (
       await exec("git for-each-ref --sort=-committerdate refs/heads/ --format='%(refname:short)'")
