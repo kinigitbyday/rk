@@ -1,7 +1,8 @@
-import { Command, Flags } from '@oclif/core';
+import { CliUx, Command, Flags } from '@oclif/core';
 import { Octokit } from '@octokit/rest';
 import util from 'util';
 import { exec as execNonPromise } from 'child_process';
+import _ from 'lodash';
 
 const exec = util.promisify(execNonPromise);
 
@@ -16,7 +17,7 @@ export default class Pr extends Command {
     title: Flags.string({
       char: 't',
       description: 'Pull request title',
-      required: true,
+      required: false,
     }),
     body: Flags.string({
       char: 'b',
@@ -45,9 +46,14 @@ export default class Pr extends Command {
 
     const {stdout: branch} = await this.executeCommand(`git rev-parse --abbrev-ref HEAD`)
 
-    const ticket = branch.split('/')[1];
+    const [user, ticket, type, name] = branch.split('/');
 
-    const title = `${flags.type}: [SC-${ticket}] ${flags.title}`;
+    const contextTitle = flags.title || _.capitalize(name.split("-").join(" "))
+
+    const title = `${flags.type}: [${ticket.toUpperCase()}] ${contextTitle}`;
+
+    await CliUx.ux.confirm(`Create PR: '${title}' [y/n]`)
+
     try {
       // Initialize Octokit with GitHub token
       const octokit = new Octokit({

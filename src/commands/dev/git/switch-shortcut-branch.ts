@@ -48,46 +48,50 @@ export default class SwitchShortcutBranch extends Command {
       loop: false,
     });
 
-    if (ticket.type === 'new') {
-      const name = await input({ message: 'Ticket title?' });
+    try {
+      if (ticket.type === 'new') {
+        const name = await input({message: 'Ticket title?'});
 
-      const type: 'feature' | 'chore' | 'bug' = await select({
-        message: 'Ticket type?',
-        choices: [
-          { name: 'Feature', value: 'feature' },
-          { value: 'bug', name: 'Bug' },
-          { value: 'chore', name: 'Chore' },
-        ],
-      });
+        const type: 'feature' | 'chore' | 'bug' = await select({
+          message: 'Ticket type?',
+          choices: [
+            {name: 'Feature', value: 'feature'},
+            {value: 'bug', name: 'Bug'},
+            {value: 'chore', name: 'Chore'},
+          ],
+        });
 
-      const newTicket = await api.createTicket(flags.token, {
-        name,
-        story_type: type,
-        owner_ids: [tickets.user.id],
-        workflow_state_id: 1,
-      });
+        const newTicket = await api.createTicket(flags.token, {
+          name,
+          story_type: type,
+          owner_ids: [tickets.user.id],
+          workflow_state_id: 500002349,
+        });
 
-      const branchName = this.ticketBranchName(tickets.user, {
-        type: 'existing',
-        storyType: newTicket.story_type as StoryType,
-        url: newTicket.app_url,
-        id: newTicket.id.toString(),
-        name: newTicket.name,
-      });
+        const branchName = this.ticketBranchName(tickets.user, {
+          type: 'existing',
+          storyType: newTicket.story_type as StoryType,
+          url: newTicket.app_url,
+          id: newTicket.id.toString(),
+          name: newTicket.name,
+        });
 
-      this.log(`Switching to branch ${branchName} for new ticket ${newTicket.app_url}`);
+        this.log(`Switching to branch ${branchName} for new ticket ${newTicket.app_url}`);
 
-      await exec(`git checkout -b ${branchName}`);
-    } else {
-      const branchName = this.ticketBranchName(tickets.user, ticket);
+        await exec(`git checkout -b ${branchName}`);
+      } else {
+        const branchName = this.ticketBranchName(tickets.user, ticket);
 
-      if (!ticket.ownerIds?.includes(tickets.user.id)) {
-        await api.assignUserToTicket(flags.token, ticket.id, tickets.user.id, ticket.ownerIds);
+        if (!ticket.ownerIds?.includes(tickets.user.id)) {
+          await api.assignUserToTicket(flags.token, ticket.id, tickets.user.id, ticket.ownerIds);
+        }
+
+        this.log(`Switching to branch ${branchName} for existing ticket ${ticket.url}`);
+
+        await exec(`git checkout -b ${branchName}`);
       }
-
-      this.log(`Switching to branch ${branchName} for existing ticket ${ticket.url}`);
-
-      await exec(`git checkout -b ${branchName}`);
+    } catch (e) {
+      this.error(`Error switching to branch: ${e}`);
     }
   }
 
