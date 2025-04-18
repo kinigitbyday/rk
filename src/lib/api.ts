@@ -25,19 +25,22 @@ export type BranchTicket =
 export default class Shortcut {
   async listTickets(
     token: string,
-    readyForDevState: string
+    readyForDevState: string,
+    includeUnassigned: boolean = false
   ): Promise<{ tickets: StorySearchResult[]; user: UserDetails }> {
     const shortcut = new ShortcutClient(token);
 
     const me = await shortcut.getCurrentMemberInfo();
 
-    const assignedNonDone = await shortcut.searchStories({ query: `-is:done owner:${me.data.mention_name}` });
-    const unassignedReadyForDev = await shortcut.searchStories({
-      query: `-owner:${me.data.mention_name} state:"${readyForDevState}"`,
-    });
+    const [assignedNonDone, unassignedReadyForDev] = await Promise.all([
+      shortcut.searchStories({ query: `-is:done owner:${me.data.mention_name}` }),
+      shortcut.searchStories({
+        query: `-owner:${me.data.mention_name} state:"${readyForDevState}"`,
+      }),
+    ]);
 
     return {
-      tickets: assignedNonDone.data.data.concat(unassignedReadyForDev.data.data),
+      tickets: includeUnassigned ? assignedNonDone.data.data.concat(unassignedReadyForDev.data.data) : assignedNonDone.data.data,
       user: { username: me.data.mention_name, id: me.data.id },
     };
   }

@@ -16,6 +16,7 @@ export default class SwitchShortcutBranch extends Command {
   static flags = {
     token: Flags.string({ required: false, default: process.env.SHORTCUT_API_TOKEN }),
     readyForDevState: Flags.string({ required: false, default: 'Ready For Development' }),
+    all: Flags.boolean({ char: 'a', required: false, default: false }),
   };
 
   async run() {
@@ -25,24 +26,26 @@ export default class SwitchShortcutBranch extends Command {
       throw new Error('Shortcut API token is required. Use --token or SHORTCUT_API_TOKEN env variable');
     }
 
-    const api = new Shortcut()
+    const api = new Shortcut();
 
-    const tickets = await api.listTickets(flags.token, flags.readyForDevState);
+    const tickets = await api.listTickets(flags.token, flags.readyForDevState, flags.all);
 
     const ticket: BranchTicket = await select<BranchTicket>({
       message: 'What are you working on?',
-      choices: tickets.tickets.map((ticket: StorySearchResult) => ({
-        name: ticket.name,
-        value: {
-          type: 'existing',
+      choices: tickets.tickets
+        .map((ticket: StorySearchResult) => ({
           name: ticket.name,
-          id: ticket.id.toString(),
-          url: ticket.app_url,
-          storyType: ticket.story_type as StoryType,
-          ownerIds: ticket.owner_ids,
-        } as BranchTicket,
-      })).concat([{ name: 'New ticket', value: { type: 'new' } as BranchTicket }]),
-      loop: false
+          value: {
+            type: 'existing',
+            name: ticket.name,
+            id: ticket.id.toString(),
+            url: ticket.app_url,
+            storyType: ticket.story_type as StoryType,
+            ownerIds: ticket.owner_ids,
+          } as BranchTicket,
+        }))
+        .concat([{ name: 'New ticket', value: { type: 'new' } as BranchTicket }]),
+      loop: false,
     });
 
     if (ticket.type === 'new') {
@@ -50,7 +53,11 @@ export default class SwitchShortcutBranch extends Command {
 
       const type: 'feature' | 'chore' | 'bug' = await select({
         message: 'Ticket type?',
-        choices: [{ name: 'Feature', value: 'feature' }, { value: 'bug', name: 'Bug' }, { value: 'chore', name: 'Chore' }],
+        choices: [
+          { name: 'Feature', value: 'feature' },
+          { value: 'bug', name: 'Bug' },
+          { value: 'chore', name: 'Chore' },
+        ],
       });
 
       const newTicket = await api.createTicket(flags.token, {
@@ -72,7 +79,7 @@ export default class SwitchShortcutBranch extends Command {
 
       await exec(`git checkout -b ${branchName}`);
     } else {
-      const branchName = this.ticketBranchName(tickets.user, ticket)
+      const branchName = this.ticketBranchName(tickets.user, ticket);
 
       if (!ticket.ownerIds?.includes(tickets.user.id)) {
         await api.assignUserToTicket(flags.token, ticket.id, tickets.user.id, ticket.ownerIds);
@@ -88,13 +95,13 @@ export default class SwitchShortcutBranch extends Command {
     const prefix = `${user.username}/sc-${ticket.id}/${ticket.storyType}`;
 
     let name = ticket.name
-        .toLowerCase()
-        .replace(/[\[\]]/g, '')
-        .replace(/\W/g, '-')
-        .replace(/--+/, '-')
-        .replace(/[^a-z0-9-]/g, '')
-        .slice(0, 50)
-        .replace(/-$/, '');
+      .toLowerCase()
+      .replace(/[\[\]]/g, '')
+      .replace(/\W/g, '-')
+      .replace(/--+/, '-')
+      .replace(/[^a-z0-9-]/g, '')
+      .slice(0, 50)
+      .replace(/-$/, '');
 
     return `${prefix}/${name}`;
   }
