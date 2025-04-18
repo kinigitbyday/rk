@@ -58,13 +58,13 @@ Open a pull request using GitHub API
 
 ```
 USAGE
-  $ rk dev:git:pr -t <value> [-b <value>] [-T fix|feat|chore] [--base <value>] [--githubToken <value>]
+  $ rk dev:git:pr [-t <value>] [-b <value>] [-T fix|feat|chore] [--base <value>] [--githubToken <value>]
 
 FLAGS
   -T, --type=<option>    [default: fix] Pull request type (e.g., "fix", "feat")
                          <options: fix|feat|chore>
   -b, --body=<value>     Pull request description
-  -t, --title=<value>    (required) Pull request title
+  -t, --title=<value>    Pull request title
   --base=<value>         [default: master] Base branch
   --githubToken=<value>
 
@@ -97,10 +97,10 @@ Switches to a branch by a shortcut name
 
 ```
 USAGE
-  $ rk dev:git:switch-shortcut-branch [--token <value>] [--readyForDevState <value>] [--includeUnassigned]
+  $ rk dev:git:switch-shortcut-branch [--token <value>] [--readyForDevState <value>] [-a]
 
 FLAGS
-  --includeUnassigned
+  -a, --all
   --readyForDevState=<value>  [default: Ready For Development]
   --token=<value>             [default: b9d37892-dd59-4f88-b545-1dafdf807ee5]
 
