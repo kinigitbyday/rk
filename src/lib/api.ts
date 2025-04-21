@@ -33,7 +33,7 @@ export default class Shortcut {
     const me = await shortcut.getCurrentMemberInfo();
 
     const [assignedNonDone, unassignedReadyForDev] = await Promise.all([
-      shortcut.searchStories({ query: `-is:done owner:${me.data.mention_name}` }),
+      shortcut.searchStories({ query: `-is:done -is:archived owner:${me.data.mention_name}` }),
       shortcut.searchStories({
         query: `-owner:${me.data.mention_name} state:"${readyForDevState}"`,
       }),
