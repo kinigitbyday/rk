@@ -83,7 +83,11 @@ Resumes shortcut branches
 
 ```
 USAGE
-  $ rk dev:git:resume-shortcut-branch
+  $ rk dev:git:resume-shortcut-branch [--token <value>] [--readyForDevState <value>]
+
+FLAGS
+  --readyForDevState=<value>  [default: Ready For Development]
+  --token=<value>             [default: b9d37892-dd59-4f88-b545-1dafdf807ee5]
 
 DESCRIPTION
   Resumes shortcut branches
