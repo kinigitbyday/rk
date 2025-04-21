@@ -25,7 +25,7 @@ export type BranchTicket =
 export default class Shortcut {
   async listTickets(
     token: string,
-    readyForDevState: string,
+    readyForDevState: string= 'Ready For Development',
     includeUnassigned: boolean = false
   ): Promise<{ tickets: StorySearchResult[]; user: UserDetails }> {
     const shortcut = new ShortcutClient(token);
