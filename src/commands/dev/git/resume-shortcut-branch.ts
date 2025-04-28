@@ -5,6 +5,7 @@ import { exec as execNonPromise } from 'child_process';
 import { select } from '@inquirer/prompts';
 import _ from 'lodash';
 import Shortcut from '../../../lib/api';
+import { StorySearchResult } from '@shortcut/client';
 
 const exec = util.promisify(execNonPromise);
 
@@ -16,11 +17,47 @@ export default class ResumeShortcutBranch extends Command {
     readyForDevState: Flags.string({ required: false, default: 'Ready For Development' }),
   };
 
+
+
   async run() {
     const { flags } = await this.parse(ResumeShortcutBranch);
 
-    const tickets = await new Shortcut().listTickets(flags.token!, flags.readyForDevState )
+    const shortcut = await new Shortcut().listTickets(flags.token!, flags.readyForDevState )
 
+    const branches = await this.getBranches(shortcut.tickets)
+
+    const byTicketId = _.groupBy(branches, x => x.ticket.id.toString())
+
+    const result = await select<{ name: string }>({
+      message: 'Resume?',
+      choices: Object.keys(byTicketId).map(id => ({
+        name: byTicketId[id][0].ticket.name,
+        value: {
+          name: byTicketId[id][0].ticket.id.toString()
+        },
+      })),
+      loop: false,
+    });
+
+    const branch = await select<{ name: string }>({
+      message: 'Which branch?',
+      choices: byTicketId[result.name].map(branch => ({
+        name: branch.value.branch,
+        value: {
+          name: branch.value.branch
+        },
+      })),
+      loop: false,
+    });
+
+    await exec(`git checkout ${branch.name}`);
+  }
+
+  private ticket(name: string): string {
+    return name.split('/')[1]?.toLowerCase().replace(/sc-/g, '');
+  }
+
+  private async getBranches(tickets: StorySearchResult[]): Promise<Array<{ ticket: StorySearchResult, value: { ticket: string, branch: string }}>> {
     const branches = (
       await exec("git for-each-ref --sort=-committerdate refs/heads/ --format='%(refname:short)'")
     ).stdout
@@ -30,34 +67,31 @@ export default class ResumeShortcutBranch extends Command {
           return undefined;
         }
 
-        const ticket = branch.split('/')[1]?.toLowerCase().replace(/sc-/g, '');
+        const ticket = this.ticket(branch)
 
         if (_.isNil(ticket)) {
           return undefined
         }
 
         return { ticket, branch }
-      }).filter((value: undefined | { ticket: string, branch: string}) => {
-        if (_.isNil(value)) {
-          return false
-        }
-
-        return !_.isNil(tickets.tickets.find(i => i.id.toString() === value.ticket))
-      }).flatMap((value: undefined | { ticket: string, branch: string }) => {
-        return value?.branch!
       })
 
-    const result = await select<{ name: string }>({
-      message: 'Resume?',
-      choices: branches.map((branch: string) => ({
-        name: branch,
-        value: {
-          name: branch,
-        },
-      })),
-      loop: false,
-    });
+      const pairings: Array<undefined | { ticket: StorySearchResult, value: { ticket: string, branch: string }}> = branches.map((value: undefined | { ticket: string, branch: string}) => {
+        if (_.isNil(value)) {
+          return undefined
+        }
 
-    await exec(`git checkout ${result.name}`);
+        const ticket = tickets.find((ticket) =>
+          ticket.id.toString() === value?.ticket
+        );
+
+        if(!_.isNil(ticket)) {
+          return { ticket, value: value!}
+        }
+
+        return undefined
+      })
+
+    return _.compact(pairings)
   }
 }

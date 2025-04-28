@@ -80,7 +80,9 @@ export default class SwitchShortcutBranch extends Command {
 
         await exec(`git checkout -b ${branchName}`);
       } else {
-        const branchName = this.ticketBranchName(tickets.user, ticket);
+        const nameOverride: string = await input({message: 'Branch name?', default: ticket.name});
+
+        const branchName = this.ticketBranchName(tickets.user, {...ticket, name: nameOverride});
 
         if (!ticket.ownerIds?.includes(tickets.user.id)) {
           await api.assignUserToTicket(flags.token, ticket.id, tickets.user.id, ticket.ownerIds);
