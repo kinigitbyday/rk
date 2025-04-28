@@ -52,7 +52,7 @@ export default class Pr extends Command {
 
     const title = `${flags.type}: [${ticket.toUpperCase()}] ${contextTitle}`;
 
-    await CliUx.ux.confirm(`Create PR: '${title}' [y/n]`)
+    await CliUx.ux.confirm(`Create PR: '${title}'`)
 
     try {
       // Initialize Octokit with GitHub token
