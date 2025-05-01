@@ -32,7 +32,7 @@ export default class SwitchShortcutBranch extends Command {
 
     const ticket: BranchTicket = await select<BranchTicket>({
       message: 'What are you working on?',
-      choices: tickets.tickets
+      choices: [{ name: 'New ticket', value: { type: 'new' } as BranchTicket }, ...tickets.tickets
         .map((ticket: StorySearchResult) => ({
           name: ticket.name,
           value: {
@@ -43,8 +43,7 @@ export default class SwitchShortcutBranch extends Command {
             storyType: ticket.story_type as StoryType,
             ownerIds: ticket.owner_ids,
           } as BranchTicket,
-        }))
-        .concat([{ name: 'New ticket', value: { type: 'new' } as BranchTicket }]),
+        }))],
       loop: false,
     });
 
