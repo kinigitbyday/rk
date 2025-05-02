@@ -7,6 +7,7 @@ import { input, select } from '@inquirer/prompts';
 import * as util from 'util';
 import { exec as execNonPromise } from 'child_process';
 import Shortcut, { BranchTicket, CreatedBranchTicket, StoryType, UserDetails } from '../../../lib/api';
+import { readJson } from 'fs-extra';
 
 const exec = util.promisify(execNonPromise);
 
@@ -16,6 +17,7 @@ export default class SwitchShortcutBranch extends Command {
   static flags = {
     token: Flags.string({ required: false, default: process.env.SHORTCUT_API_TOKEN }),
     readyForDevState: Flags.string({ required: false, default: 'Ready For Development' }),
+    configFile: Flags.string({ required: false, default: '.shortcut-config.json',  }),
     all: Flags.boolean({ char: 'a', required: false, default: false }),
   };
 
@@ -27,6 +29,8 @@ export default class SwitchShortcutBranch extends Command {
     }
 
     const api = new Shortcut();
+
+    const config = await this.loadConfig(flags.configFile)
 
     const tickets = await api.listTickets(flags.token, flags.readyForDevState, flags.all);
 
@@ -60,11 +64,14 @@ export default class SwitchShortcutBranch extends Command {
           ],
         });
 
+
+
         const newTicket = await api.createTicket(flags.token, {
           name,
           story_type: type,
           owner_ids: [tickets.user.id],
-          workflow_state_id: 500002349,
+          workflow_state_id: config.workflowId,
+          group_id: config.groupId
         });
 
         const branchName = this.ticketBranchName(tickets.user, {
@@ -109,5 +116,9 @@ export default class SwitchShortcutBranch extends Command {
       .replace(/-$/, '');
 
     return `${prefix}/${name}`;
+  }
+
+  private async loadConfig(path: string): Promise<{ workflowId?: number, groupId: string }> {
+    return readJson(path)
   }
 }
