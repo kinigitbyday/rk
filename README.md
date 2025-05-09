@@ -101,10 +101,11 @@ Switches to a branch by a shortcut name
 
 ```
 USAGE
-  $ rk dev:git:switch-shortcut-branch [--token <value>] [--readyForDevState <value>] [-a]
+  $ rk dev:git:switch-shortcut-branch [--token <value>] [--readyForDevState <value>] [--configFile <value>] [-a]
 
 FLAGS
   -a, --all
+  --configFile=<value>        [default: .shortcut-config.json]
   --readyForDevState=<value>  [default: Ready For Development]
   --token=<value>             [default: b9d37892-dd59-4f88-b545-1dafdf807ee5]
 
