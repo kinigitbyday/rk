@@ -30,7 +30,8 @@ export default class SwitchShortcutBranch extends Command {
 
     const api = new Shortcut();
 
-    const config = await this.loadConfig(flags.configFile)
+    const config = await this
+      .loadConfig(flags.configFile)
 
     const tickets = await api.listTickets(flags.token, flags.readyForDevState, flags.all);
 
@@ -71,7 +72,8 @@ export default class SwitchShortcutBranch extends Command {
           story_type: type,
           owner_ids: [tickets.user.id],
           workflow_state_id: config.workflowId,
-          group_id: config.groupId
+          group_id: config.groupId,
+          epic_id: config.epicId
         });
 
         const branchName = this.ticketBranchName(tickets.user, {
@@ -118,7 +120,7 @@ export default class SwitchShortcutBranch extends Command {
     return `${prefix}/${name}`;
   }
 
-  private async loadConfig(path: string): Promise<{ workflowId?: number, groupId: string }> {
+  private async loadConfig(path: string): Promise<{ workflowId?: number, groupId: string, epicId: number | undefined }> {
     return readJson(path)
   }
 }
