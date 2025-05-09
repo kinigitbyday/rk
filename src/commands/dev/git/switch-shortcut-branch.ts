@@ -37,7 +37,7 @@ export default class SwitchShortcutBranch extends Command {
 
     const [tickets, epics] = await Promise.all([
       api.listTickets(flags.readyForDevState, flags.all),
-      api.listEpics(),
+      api.listEpics(config.projects),
     ]);
 
     const ticket: BranchTicket = await select<BranchTicket>({
@@ -70,17 +70,11 @@ export default class SwitchShortcutBranch extends Command {
           ],
         });
 
+        const sorted = _.partition(epics, (i => config.epicIdSortPriority.includes(i.id))).flatMap(i => i)
+
         const epicId: number = await select<number>({
           message: 'Which epic?',
-          choices: epics.filter(i => {
-              const explicit = config.epicIds.includes(i.id)
-
-              const byGroupAssociation = _.difference(config.epicRelatedGroupIds, i?.associated_groups?.map(j => j.group_id)).length === 0
-
-              return explicit || byGroupAssociation;
-            }
-          )
-              .map((epic: EpicSlim) => ({
+          choices: sorted.map((epic: EpicSlim) => ({
                 name: epic.name,
                 value: epic.id,
               })),
@@ -142,7 +136,7 @@ export default class SwitchShortcutBranch extends Command {
     return `${prefix}/${name}`;
   }
 
-  private async loadConfig(path: string): Promise<{ workflowId?: number, groupId: string, epicIds: number[], epicRelatedGroupIds: string[] }> {
+  private async loadConfig(path: string): Promise<{ workflowId?: number, groupId: string, projects: string[], epicIdSortPriority: number[] }> {
     return readJson(path);
   }
 }
