@@ -62,7 +62,7 @@ export default class Shortcut {
     return ticket.data;
   }
 
-  async listEpics(projects: string[]): Promise<EpicSlim[]> {
+  async listEpics(teams: string[]): Promise<EpicSlim[]> {
     const data: EpicSlim[] = [];
 
     let next = undefined;
@@ -72,7 +72,7 @@ export default class Shortcut {
           detail: 'slim',
           entity_types: ['epic'],
           page_size: 25,
-          query: next ?? `-is:done -is:archived ${projects.map(i => `project:${i}`).join(' OR ')}`,
+          query: next ?? `-is:done -is:archived ${teams.map(i => `team:${i}`).join(' OR ')}`,
           // next: next
         })
         .then(x => x.data);

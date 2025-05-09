@@ -37,7 +37,7 @@ export default class SwitchShortcutBranch extends Command {
 
     const [tickets, epics] = await Promise.all([
       api.listTickets(flags.readyForDevState, flags.all),
-      api.listEpics(config.projects),
+      api.listEpics(config.teams),
     ]);
 
     const ticket: BranchTicket = await select<BranchTicket>({
@@ -136,7 +136,7 @@ export default class SwitchShortcutBranch extends Command {
     return `${prefix}/${name}`;
   }
 
-  private async loadConfig(path: string): Promise<{ workflowId?: number, groupId: string, projects: string[], epicIdSortPriority: number[] }> {
+  private async loadConfig(path: string): Promise<{ workflowId?: number, groupId: string, teams: string[], epicIdSortPriority: number[] }> {
     return readJson(path);
   }
 }
