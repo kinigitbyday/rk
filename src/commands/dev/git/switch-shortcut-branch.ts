@@ -8,6 +8,8 @@ import * as util from 'util';
 import { exec as execNonPromise } from 'child_process';
 import Shortcut, { BranchTicket, CreatedBranchTicket, StoryType, UserDetails } from '../../../lib/api';
 import { readJson } from 'fs-extra';
+import { EpicSlim } from '@shortcut/client/lib/generated/data-contracts';
+import _ from 'lodash';
 
 const exec = util.promisify(execNonPromise);
 
@@ -17,7 +19,7 @@ export default class SwitchShortcutBranch extends Command {
   static flags = {
     token: Flags.string({ required: false, default: process.env.SHORTCUT_API_TOKEN }),
     readyForDevState: Flags.string({ required: false, default: 'Ready For Development' }),
-    configFile: Flags.string({ required: false, default: '.shortcut-config.json',  }),
+    configFile: Flags.string({ required: false, default: '.shortcut-config.json' }),
     all: Flags.boolean({ char: 'a', required: false, default: false }),
   };
 
@@ -31,9 +33,12 @@ export default class SwitchShortcutBranch extends Command {
     const api = new Shortcut();
 
     const config = await this
-      .loadConfig(flags.configFile)
+      .loadConfig(flags.configFile);
 
-    const tickets = await api.listTickets(flags.token, flags.readyForDevState, flags.all);
+    const [tickets, epics] = await Promise.all([
+      api.listTickets(flags.readyForDevState, flags.all),
+      api.listEpics(),
+    ]);
 
     const ticket: BranchTicket = await select<BranchTicket>({
       message: 'What are you working on?',
@@ -54,26 +59,43 @@ export default class SwitchShortcutBranch extends Command {
 
     try {
       if (ticket.type === 'new') {
-        const name = await input({message: 'Ticket title?'});
+        const name = await input({ message: 'Ticket title?' });
 
         const type: 'feature' | 'chore' | 'bug' = await select({
           message: 'Ticket type?',
           choices: [
-            {name: 'Feature', value: 'feature'},
-            {value: 'bug', name: 'Bug'},
-            {value: 'chore', name: 'Chore'},
+            { name: 'Feature', value: 'feature' },
+            { value: 'bug', name: 'Bug' },
+            { value: 'chore', name: 'Chore' },
           ],
         });
 
+        const epicId: number = await select<number>({
+          message: 'Which epic?',
+          choices: epics.filter(i => {
+              const explicit = config.epicIds.includes(i.id)
 
+              const byGroupAssociation = _.difference(config.epicRelatedGroupIds, i?.associated_groups?.map(j => j.group_id)).length === 0
 
-        const newTicket = await api.createTicket(flags.token, {
+              return explicit || byGroupAssociation;
+            }
+          )
+              .map((epic: EpicSlim) => ({
+                name: epic.name,
+                value: epic.id,
+              })),
+            loop
+      :
+        false,
+      })
+
+        const newTicket = await api.createTicket({
           name,
           story_type: type,
           owner_ids: [tickets.user.id],
           workflow_state_id: config.workflowId,
           group_id: config.groupId,
-          epic_id: config.epicId
+          epic_id: epicId,
         });
 
         const branchName = this.ticketBranchName(tickets.user, {
@@ -88,12 +110,12 @@ export default class SwitchShortcutBranch extends Command {
 
         await exec(`git checkout -b ${branchName}`);
       } else {
-        const nameOverride: string = await input({message: 'Branch name?', default: ticket.name});
+        const nameOverride: string = await input({ message: 'Branch name?', default: ticket.name });
 
-        const branchName = this.ticketBranchName(tickets.user, {...ticket, name: nameOverride});
+        const branchName = this.ticketBranchName(tickets.user, { ...ticket, name: nameOverride });
 
         if (!ticket.ownerIds?.includes(tickets.user.id)) {
-          await api.assignUserToTicket(flags.token, ticket.id, tickets.user.id, ticket.ownerIds);
+          await api.assignUserToTicket(ticket.id, tickets.user.id, ticket.ownerIds);
         }
 
         this.log(`Switching to branch ${branchName} for existing ticket ${ticket.url}`);
@@ -120,7 +142,7 @@ export default class SwitchShortcutBranch extends Command {
     return `${prefix}/${name}`;
   }
 
-  private async loadConfig(path: string): Promise<{ workflowId?: number, groupId: string, epicId: number | undefined }> {
-    return readJson(path)
+  private async loadConfig(path: string): Promise<{ workflowId?: number, groupId: string, epicIds: number[], epicRelatedGroupIds: string[] }> {
+    return readJson(path);
   }
 }

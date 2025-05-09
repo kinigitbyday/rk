@@ -22,7 +22,7 @@ export default class ResumeShortcutBranch extends Command {
   async run() {
     const { flags } = await this.parse(ResumeShortcutBranch);
 
-    const shortcut = await new Shortcut().listTickets(flags.token!, flags.readyForDevState )
+    const shortcut = await new Shortcut(flags.token!).listTickets( flags.readyForDevState )
 
     const branches = await this.getBranches(shortcut.tickets)
 
