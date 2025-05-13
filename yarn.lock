@@ -1445,6 +1445,11 @@
     "@octokit/webhooks-types" "7.6.1"
     aggregate-error "^3.1.0"
 
+"@paradoxical-io/types@^1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@paradoxical-io/types/-/types-1.0.7.tgz#ae9892b9af35ffac45220ebbc39a2529f324ef20"
+  integrity sha512-KgtO9Mk9u4lOh4sTAyI/c1Q3AuB9pp0j5gVA6bqyveA8n60qrjMF4oIjNihDbES6bmKBZJzbAEIs2VO4awMy4Q==
+
 "@shortcut/client@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@shortcut/client/-/client-1.1.0.tgz#0955f6a88ef7b0c41ec1800467db958bd08b73d7"
