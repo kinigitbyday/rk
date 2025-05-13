@@ -7,8 +7,14 @@ const exec = util.promisify(execNonPromise);
 
 export type ShortcutTicket = Brand<string, 'ShortcutTicket'>;
 
-export function branchToTicket(name: string): ShortcutTicket {
-  return name.split('/')[1].toLowerCase().replace(/sc-/g, '') as ShortcutTicket;
+export function branchToTicket(name: string): ShortcutTicket | undefined {
+  const ticket = name.split('/')[1]?.toLowerCase()?.replace(/sc-/g, '');
+
+  if(_.isEmpty(ticket)) {
+    return undefined;
+  }
+
+  return ticket as ShortcutTicket
 }
 
 export interface GitBranch {

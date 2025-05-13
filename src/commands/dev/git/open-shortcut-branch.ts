@@ -19,7 +19,7 @@ export default class OpenShortcutBranch extends Command {
     if (flags.token === undefined) {
       throw new Error('Shortcut API token is required. Use --token or SHORTCUT_API_TOKEN env variable');
     }
-    
+
     const branch = await exec('git rev-parse --abbrev-ref HEAD');
 
     const ticket = branchToTicket(branch.stdout)
