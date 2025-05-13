@@ -17,6 +17,7 @@ rk autocomplete:script zsh
 # Commands
 <!-- commands -->
 * [`rk autocomplete [SHELL]`](#rk-autocomplete-shell)
+* [`rk dev:git:open-shortcut-branch`](#rk-devgitopen-shortcut-branch)
 * [`rk dev:git:pr`](#rk-devgitpr)
 * [`rk dev:git:resume-shortcut-branch`](#rk-devgitresume-shortcut-branch)
 * [`rk dev:git:switch-shortcut-branch`](#rk-devgitswitch-shortcut-branch)
@@ -51,6 +52,23 @@ EXAMPLES
 ```
 
 _See code: [@oclif/plugin-autocomplete](https://github.com/oclif/plugin-autocomplete/blob/v0.2.1/src/commands/autocomplete/index.ts)_
+
+## `rk dev:git:open-shortcut-branch`
+
+Opens a shortcut ticket for the current branch
+
+```
+USAGE
+  $ rk dev:git:open-shortcut-branch [--token <value>]
+
+FLAGS
+  --token=<value>  [default: b9d37892-dd59-4f88-b545-1dafdf807ee5]
+
+DESCRIPTION
+  Opens a shortcut ticket for the current branch
+```
+
+_See code: [dist/commands/dev/git/open-shortcut-branch.ts](https://github.com/kinigitbyday/rk/blob/v0.0.0/dist/commands/dev/git/open-shortcut-branch.ts)_
 
 ## `rk dev:git:pr`
 

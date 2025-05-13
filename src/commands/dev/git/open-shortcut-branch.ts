@@ -27,6 +27,10 @@ export default class OpenShortcutBranch extends Command {
 
     const ticket = branchToTicket(branch.stdout)
 
-    await exec(`open https://app.shortcut.com/coast/story/${ticket}`);
+    const url = `https://app.shortcut.com/coast/story/${ticket}`
+
+    await exec(`open ${url}`);
+
+    this.log(`Opening ticket ${url}`);
   }
 }
